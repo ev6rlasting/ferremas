@@ -17,7 +17,7 @@ Proyecto Spring Boot para la gestión de productos, sucursales, autenticación y
 - JAX-WS (para servicios SOAP)
 - jjwt (JWT handling)
 
----
+----
 
 ## Estructura del proyecto
 
