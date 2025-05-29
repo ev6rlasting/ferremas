@@ -1,0 +1,290 @@
+{
+  "info": {
+    "name": "FERREMAS API",
+    "_postman_id": "3b5f7f70-8d8e-4a3a-9f1c-6e652c4a7ef0",
+    "description": "Colección con endpoints de Sucursal, Producto, Webpay y BancoCentral con casos exitosos y errores.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Sucursal",
+      "item": [
+        {
+          "name": "Crear sucursal",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/sucursales", "host": ["{{baseUrl}}"], "path": ["sucursales"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nombre\":\"Sucursal Central\",\"direccion\":\"Av. Principal 123\"}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar productos por sucursal - éxito",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/sucursales/1/productos", "host": ["{{baseUrl}}"], "path": ["sucursales","1","productos"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar productos por sucursal - sucursal no existe",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/sucursales/999/productos", "host": ["{{baseUrl}}"], "path": ["sucursales","999","productos"] }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Producto",
+      "item": [
+        {
+          "name": "Crear producto - válido",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/productos", "host": ["{{baseUrl}}"], "path": ["productos"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\":\"Taladro\",\n  \"marca\":\"Bosch\",\n  \"precio\":150000.0,\n  \"stock\":10,\n  \"categoria\":\"Herramientas\",\n  \"idsSucursal\":[1,2]\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear producto - datos inválidos (falta nombre)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/productos", "host": ["{{baseUrl}}"], "path": ["productos"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"marca\":\"Bosch\",\n  \"precio\":150000.0,\n  \"stock\":10,\n  \"categoria\":\"Herramientas\",\n  \"idsSucursal\":[1,2]\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar producto por ID - éxito",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/productos/1", "host": ["{{baseUrl}}"], "path": ["productos","1"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar producto por ID - no existe",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/productos/9999", "host": ["{{baseUrl}}"], "path": ["productos","9999"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Filtrar productos - por nombre y categoría",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/productos/filtrar?nombre=taladro&categoria=Herramientas",
+              "host": ["{{baseUrl}}"],
+              "path": ["productos","filtrar"],
+              "query": [
+                { "key": "nombre", "value": "taladro" },
+                { "key": "categoria", "value": "Herramientas" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar producto PUT - éxito",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/productos/1", "host": ["{{baseUrl}}"], "path": ["productos","1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\":\"Taladro Actualizado\",\n  \"marca\":\"Bosch\",\n  \"precio\":160000.0,\n  \"stock\":15,\n  \"categoria\":\"Herramientas\",\n  \"idsSucursal\":[1]\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar producto PUT - no existe",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/productos/9999", "host": ["{{baseUrl}}"], "path": ["productos","9999"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\":\"Taladro Actualizado\",\n  \"marca\":\"Bosch\",\n  \"precio\":160000.0,\n  \"stock\":15,\n  \"categoria\":\"Herramientas\",\n  \"idsSucursal\":[1]\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar producto PATCH - éxito",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/productos/1", "host": ["{{baseUrl}}"], "path": ["productos","1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"precio\":170000.0\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar producto PATCH - no existe",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/productos/9999", "host": ["{{baseUrl}}"], "path": ["productos","9999"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"precio\":170000.0\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar producto - éxito",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/productos/1", "host": ["{{baseUrl}}"], "path": ["productos","1"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar producto - no existe",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/productos/9999", "host": ["{{baseUrl}}"], "path": ["productos","9999"] }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Webpay",
+      "item": [
+        {
+          "name": "Crear transacción - monto válido",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/webpay/crear?monto=1000.0",
+              "host": ["{{baseUrl}}"],
+              "path": ["webpay","crear"],
+              "query": [{ "key": "monto", "value": "1000.0" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear transacción - monto inválido (negativo)",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/webpay/crear?monto=-100.0",
+              "host": ["{{baseUrl}}"],
+              "path": ["webpay","crear"],
+              "query": [{ "key": "monto", "value": "-100.0" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Confirmar transacción - token válido",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/webpay/confirmacion?token_ws=token_valido",
+              "host": ["{{baseUrl}}"],
+              "path": ["webpay","confirmacion"],
+              "query": [{ "key": "token_ws", "value": "token_valido" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Confirmar transacción - token inválido",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/webpay/confirmacion?token_ws=token_invalido",
+              "host": ["{{baseUrl}}"],
+              "path": ["webpay","confirmacion"],
+              "query": [{ "key": "token_ws", "value": "token_invalido" }]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "BancoCentral",
+      "item": [
+        {
+          "name": "Obtener valor Dólar",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/bancocentral/dolar", "host": ["{{baseUrl}}"], "path": ["api","bancocentral","dolar"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener valor Euro",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/bancocentral/euro", "host": ["{{baseUrl}}"], "path": ["api","bancocentral","euro"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener valor UF",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/bancocentral/uf", "host": ["{{baseUrl}}"], "path": ["api","bancocentral","uf"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Convertir USD a CLP",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/bancocentral/convertir/usdaclp?usd=100",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","bancocentral","convertir","usdaclp"],
+              "query": [{ "key": "usd", "value": "100" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Convertir CLP a USD",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/bancocentral/convertir/clpusd?clp=100000",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","bancocentral","convertir","clpusd"],
+              "query": [{ "key": "clp", "value": "100000" }]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" }
+  ]
+}
