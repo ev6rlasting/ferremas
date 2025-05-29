@@ -2,10 +2,34 @@
   "info": {
     "name": "FERREMAS API",
     "_postman_id": "3b5f7f70-8d8e-4a3a-9f1c-6e652c4a7ef0",
-    "description": "Colección con endpoints de Sucursal, Producto, Webpay y BancoCentral con casos exitosos y errores.",
+    "description": "Colección con endpoints de Sucursal, Producto, Webpay, BancoCentral y Auth con casos exitosos y errores.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login - obtener token JWT",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"usuario\",\n  \"password\": \"tu_contraseña\"\n}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
     {
       "name": "Sucursal",
       "item": [
@@ -260,23 +284,29 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/bancocentral/convertir/usdaclp?usd=100",
+              "raw": "{{baseUrl}}/api/bancocentral/convertir?monto=10&moneda=usd",
               "host": ["{{baseUrl}}"],
-              "path": ["api","bancocentral","convertir","usdaclp"],
-              "query": [{ "key": "usd", "value": "100" }]
+              "path": ["api","bancocentral","convertir"],
+              "query": [
+                { "key": "monto", "value": "10" },
+                { "key": "moneda", "value": "usd" }
+              ]
             }
           },
           "response": []
         },
         {
-          "name": "Convertir CLP a USD",
+          "name": "Convertir moneda no soportada",
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/bancocentral/convertir/clpusd?clp=100000",
+              "raw": "{{baseUrl}}/api/bancocentral/convertir?monto=10&moneda=yen",
               "host": ["{{baseUrl}}"],
-              "path": ["api","bancocentral","convertir","clpusd"],
-              "query": [{ "key": "clp", "value": "100000" }]
+              "path": ["api","bancocentral","convertir"],
+              "query": [
+                { "key": "monto", "value": "10" },
+                { "key": "moneda", "value": "yen" }
+              ]
             }
           },
           "response": []
@@ -284,7 +314,27 @@
       ]
     }
   ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "exec": [],
+        "type": "text/javascript"
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "exec": [],
+        "type": "text/javascript"
+      }
+    }
+  ],
   "variable": [
-    { "key": "baseUrl", "value": "http://localhost:8080" }
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
   ]
 }
